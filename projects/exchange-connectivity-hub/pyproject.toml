@@ -12,6 +12,8 @@ dependencies = [
     "python-dotenv>=1.0.0",
     "langchain-core>=0.3.0",
     "langchain-community>=0.3.0",
+    "langchain-text-splitters>=0.3.0",
+    "tiktoken>=0.5.0",
     "pymupdf>=1.23.0",
 ]
 
