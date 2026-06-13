@@ -2,8 +2,8 @@
 
 
 def test_package_imports():
-    """The src package should import cleanly."""
-    import src  # noqa: F401
+    """The exchange_connectivity_hub package should import cleanly."""
+    import exchange_connectivity_hub  # noqa: F401
 
 
 def test_truth():
