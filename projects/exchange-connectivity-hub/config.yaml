@@ -1,0 +1,30 @@
+# RAG Configuration
+retrieval:
+  top_k: 20              # Number of chunks to retrieve before reranking
+  rerank_top_n: 5        # Number of chunks to keep after reranking
+  rerank_enabled: true   # Enable Voyage rerank-2.5
+
+# Models
+models:
+  embedding: voyage-finance-2
+  rerank: rerank-2.5
+  llm: claude-sonnet-4-6
+
+# Vector Store
+vector_store:
+  persist_directory: data/chroma_db
+  collection_name: exchange_docs
+
+# Staleness Detection
+staleness:
+  days: 60  # Warn if source doc ingested more than N days ago
+
+# API
+api:
+  host: 0.0.0.0
+  port: 8000
+
+# UI
+ui:
+  host: localhost
+  port: 8501
