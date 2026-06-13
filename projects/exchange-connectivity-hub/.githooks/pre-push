@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# Pre-push hook: prevent direct pushes to the default branch.
+# Enforces feature-branch + pull-request workflow.
+
+echo "Checking branches to be pushed..."
+
+while read -r LOCAL_REF LOCAL_SHA REMOTE_REF REMOTE_SHA
+do
+    if [[ "$REMOTE_REF" == *"refs/heads/master"* || "$REMOTE_REF" == *"refs/heads/main"* ]]; then
+        echo ""
+        echo "ERROR: Direct pushes to the default branch are not allowed."
+        echo ""
+        echo "Use a feature branch and a pull request instead:"
+        echo "  git checkout -b feature/your-feature-name"
+        echo "  git push origin feature/your-feature-name"
+        echo ""
+        exit 1
+    fi
+done
+
+echo "Push pre-checks passed"
+exit 0
