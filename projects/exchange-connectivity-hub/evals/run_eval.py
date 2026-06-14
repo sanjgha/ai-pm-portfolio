@@ -142,7 +142,7 @@ def run_evaluation(
                 {
                     "question": item["question"],
                     "answer": result["answer"],
-                    "contexts": extract_contexts(result.get("sources", [])),
+                    "contexts": result.get("contexts", []),
                     "ground_truth": item["ground_truth"],
                     "type": "answerable",
                 }
@@ -177,7 +177,7 @@ def run_evaluation(
                 {
                     "question": item["question"],
                     "answer": answer,
-                    "contexts": extract_contexts(result.get("sources", [])),
+                    "contexts": result.get("contexts", []),
                     "ground_truth": "",
                     "type": "unanswerable",
                     "refused": refused,

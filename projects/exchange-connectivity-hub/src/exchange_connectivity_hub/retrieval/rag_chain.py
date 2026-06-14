@@ -154,6 +154,7 @@ Answer:"""
         return {
             "answer": answer,
             "sources": sources,
+            "contexts": [doc.page_content for doc in docs],
             "staleness_warning": staleness_warning,
         }
 
