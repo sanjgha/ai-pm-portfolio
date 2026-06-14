@@ -15,9 +15,23 @@ _shim_module = ModuleType("langchain_community.chat_models.vertexai")
 
 # Lazy import function
 def _get_chat_vertex_ai():
-    from langchain_google_vertexai import ChatVertexAI as _ChatVertexAI
+    try:
+        from langchain_google_vertexai import ChatVertexAI as _ChatVertexAI
 
-    return _ChatVertexAI
+        return _ChatVertexAI
+    except ModuleNotFoundError:
+        # langchain-google-vertexai is an optional, heavyweight dependency we do
+        # not install: this project evaluates with the Anthropic provider, so
+        # ragas never instantiates ChatVertexAI. It only needs the symbol to
+        # resolve at import time, so a placeholder class is sufficient.
+        class _ChatVertexAIUnavailable:
+            def __init__(self, *args: object, **kwargs: object) -> None:
+                raise RuntimeError(
+                    "ChatVertexAI is unavailable: install langchain-google-vertexai "
+                    "to use the Vertex AI provider."
+                )
+
+        return _ChatVertexAIUnavailable
 
 
 # Make the module act like a proxy for ChatVertexAI
