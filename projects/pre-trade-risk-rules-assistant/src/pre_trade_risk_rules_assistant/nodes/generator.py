@@ -4,12 +4,13 @@ from typing import Any
 
 from pre_trade_risk_rules_assistant.llm import call_tool
 from pre_trade_risk_rules_assistant.schemas.rules import (
+    BaseRule,
     OrderNotionalLimitRule,
     PriceCollarRule,
     RestrictedListRule,
 )
 
-RULE_MODELS = {
+RULE_MODELS: dict[str, type[BaseRule]] = {
     "order_notional_limit": OrderNotionalLimitRule,
     "price_collar": PriceCollarRule,
     "restricted_list": RestrictedListRule,
