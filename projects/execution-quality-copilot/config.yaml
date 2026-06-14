@@ -1,0 +1,17 @@
+models:
+  agent: claude-opus-4-8        # eval harness tool-use loop (strongest tool selection)
+  max_tokens: 1024
+
+storage:
+  db_path: data/seed.duckdb
+
+generator:
+  seed: 42
+  n_fills: 10000
+  n_symbols: 50
+  start_date: "2026-05-01"
+  end_date: "2026-05-29"        # business days only; inclusive
+
+eval:
+  numeric_tolerance: 0.05        # 5% relative tolerance on the headline number
+  max_turns: 6                   # max tool-use rounds per question
