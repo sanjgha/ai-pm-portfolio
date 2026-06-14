@@ -5,7 +5,7 @@ retrieval:
   rerank_enabled: true   # Enable Voyage rerank-2.5
   bm25_weight: 0.4       # EnsembleRetriever weight for BM25 (keyword) retriever
   vector_weight: 0.6     # EnsembleRetriever weight for dense vector retriever
-  rerank_query_expansion: false  # Enrich rerank query with HKEX domain synonyms
+  rerank_query_expansion: true   # Enrich rerank query with HKEX domain synonyms (LIN-137: CAS 0.70->0.80, overall CP 0.66->0.71, no regressions)
 
 # Chunking (token-aware, cl100k_base). Re-ingest after changing these.
 chunking:
