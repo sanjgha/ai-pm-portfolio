@@ -39,14 +39,19 @@ from datetime import datetime, timezone  # noqa: E402
 from pathlib import Path  # noqa: E402
 
 from datasets import Dataset  # noqa: E402
+from langchain_anthropic import ChatAnthropic  # noqa: E402
+from langchain_community.embeddings import VoyageEmbeddings  # noqa: E402
 from ragas import evaluate  # noqa: E402
+from ragas.embeddings import LangchainEmbeddingsWrapper  # noqa: E402
+from ragas.llms import LangchainLLMWrapper  # noqa: E402
 from ragas.metrics import (  # noqa: E402
+    answer_relevancy,
     context_precision,
     context_recall,
     faithfulness,
-    answer_relevancy,
 )
 
+from exchange_connectivity_hub.config import get_anthropic_api_key, get_voyage_api_key  # noqa: E402
 from exchange_connectivity_hub.retrieval.rag_chain import (  # noqa: E402
     create_rag_chain,
 )
@@ -195,16 +200,33 @@ def run_evaluation(
     # (RAGAS metrics require ground truth)
     answerable_results = [r for r in all_results if r["type"] == "answerable"]
 
+    # RAGAS 0.2.x renamed fields: question→user_input, answer→response,
+    # contexts→retrieved_contexts, ground_truth (list)→reference (str)
     dataset_dict = {
-        "question": [r["question"] for r in answerable_results],
-        "answer": [r["answer"] for r in answerable_results],
-        "contexts": [r["contexts"] for r in answerable_results],
-        "ground_truth": [[r["ground_truth"]] for r in answerable_results],
+        "user_input": [r["question"] for r in answerable_results],
+        "response": [r["answer"] for r in answerable_results],
+        "retrieved_contexts": [r["contexts"] for r in answerable_results],
+        "reference": [r["ground_truth"] for r in answerable_results],
     }
     dataset = Dataset.from_dict(dataset_dict)
 
     print(f"\n=== Running RAGAS evaluation on {len(answerable_results)} answerable questions ===")
-    # Run RAGAS evaluation
+
+    # Use Claude as judge LLM and Voyage for embeddings (avoids requiring OpenAI key)
+    judge_llm = LangchainLLMWrapper(
+        ChatAnthropic(
+            api_key=get_anthropic_api_key(),
+            model="claude-haiku-4-5-20251001",
+            temperature=0,
+        )
+    )
+    judge_embeddings = LangchainEmbeddingsWrapper(
+        VoyageEmbeddings(  # type: ignore[call-arg]
+            voyage_api_key=get_voyage_api_key(),
+            model="voyage-finance-2",
+        )
+    )
+
     result = evaluate(
         dataset=dataset,
         metrics=[
@@ -213,6 +235,8 @@ def run_evaluation(
             faithfulness,
             answer_relevancy,
         ],
+        llm=judge_llm,
+        embeddings=judge_embeddings,
     )
 
     # Convert to dict for easier handling
