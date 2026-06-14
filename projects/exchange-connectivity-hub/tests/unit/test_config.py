@@ -52,3 +52,30 @@ def test_api_keys_required():
 
     # Restore for other tests
     os.environ["VOYAGE_API_KEY"] = "test-key"
+
+
+def test_apply_config_overrides_deep_merges(monkeypatch):
+    """Overrides update nested keys without dropping siblings."""
+    import exchange_connectivity_hub.config as config_mod
+
+    base = {"retrieval": {"top_k": 20, "rerank_top_n": 5}, "models": {"rerank": "rerank-2.5"}}
+    monkeypatch.setattr(config_mod, "_config", base)
+
+    config_mod.apply_config_overrides({"retrieval": {"rerank_top_n": 8}})
+
+    cfg = config_mod.get_config()
+    assert cfg["retrieval"]["rerank_top_n"] == 8  # overridden
+    assert cfg["retrieval"]["top_k"] == 20  # sibling preserved
+    assert cfg["models"]["rerank"] == "rerank-2.5"  # other section preserved
+
+
+def test_apply_config_overrides_adds_new_key(monkeypatch):
+    """Overrides can introduce a new nested key."""
+    import exchange_connectivity_hub.config as config_mod
+
+    base = {"retrieval": {"top_k": 20}}
+    monkeypatch.setattr(config_mod, "_config", base)
+
+    config_mod.apply_config_overrides({"retrieval": {"bm25_weight": 0.3}})
+
+    assert config_mod.get_config()["retrieval"]["bm25_weight"] == 0.3
