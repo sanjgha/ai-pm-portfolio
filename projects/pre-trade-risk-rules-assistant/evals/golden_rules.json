@@ -103,13 +103,13 @@
     }
   },
   {
-    "request": "Set a 10 percent price collar on TSE orders relative to the previous close",
+    "request": "Set a 10 percent price collar on TSE orders relative to VWAP",
     "expected": {
       "rule_type": "price_collar",
       "scope": {"exchange": "TSE"},
       "action": "warn",
       "collar_pct": 10,
-      "reference_price": "close"
+      "reference_price": "vwap"
     }
   },
   {
@@ -182,14 +182,14 @@
     }
   },
   {
-    "request": "Warn on HKEX buy orders that deviate more than 8 percent from the last close",
+    "request": "Warn on HKEX buy orders that deviate more than 8 percent from the last traded price",
     "expected": {
       "rule_type": "price_collar",
       "scope": {"exchange": "HKEX"},
       "side": "buy",
       "action": "warn",
       "collar_pct": 8,
-      "reference_price": "close"
+      "reference_price": "last"
     }
   },
   {
