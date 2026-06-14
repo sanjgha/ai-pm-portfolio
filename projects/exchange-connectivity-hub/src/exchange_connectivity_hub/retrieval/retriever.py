@@ -32,7 +32,7 @@ def create_retriever(
     embedding_model = config["models"]["embedding"]
 
     # Initialize embeddings
-    embeddings = VoyageEmbeddings(
+    embeddings = VoyageEmbeddings(  # type: ignore[call-arg]
         voyage_api_key=get_voyage_api_key(),
         model=embedding_model,
     )
