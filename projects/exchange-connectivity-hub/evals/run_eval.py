@@ -65,7 +65,11 @@ from ragas.metrics import (  # noqa: E402
     faithfulness,
 )
 
-from exchange_connectivity_hub.config import get_anthropic_api_key, get_voyage_api_key  # noqa: E402
+from exchange_connectivity_hub.config import (  # noqa: E402
+    apply_config_overrides,
+    get_anthropic_api_key,
+    get_voyage_api_key,
+)
 from exchange_connectivity_hub.retrieval.rag_chain import (  # noqa: E402
     create_rag_chain,
 )
@@ -317,6 +321,7 @@ def run_evaluation(
         "thresholds": thresholds,
         "passed": passed,
         "per_question_scores": scores,
+        "per_question_cp": build_per_question_cp(scores),
     }
 
     return results
@@ -348,6 +353,12 @@ def print_results(results: dict) -> None:
         else:
             print(f"  {name}: {value:.4f}")
 
+    per_q = results.get("per_question_cp", [])
+    if per_q:
+        print("\nPer-question context_precision:")
+        for row in per_q:
+            print(f"  {row['context_precision']:.2f}  {row['question'][:70]}")
+
     print(f"\nOverall: {'PASSED ✓' if results['passed'] else 'FAILED ✗'}")
     print("=" * 60)
 
@@ -373,6 +384,29 @@ def save_results(results: dict, results_dir: Path) -> Path:
     return output_path
 
 
+def build_overrides(args) -> dict:
+    """Build a config-override dict from parsed CLI args (only set values)."""
+    retrieval: dict = {}
+    if args.rerank_top_n is not None:
+        retrieval["rerank_top_n"] = args.rerank_top_n
+    if args.top_k is not None:
+        retrieval["top_k"] = args.top_k
+    if args.bm25_weight is not None:
+        retrieval["bm25_weight"] = args.bm25_weight
+    if args.vector_weight is not None:
+        retrieval["vector_weight"] = args.vector_weight
+    if args.rerank_query_expansion is not None:
+        retrieval["rerank_query_expansion"] = args.rerank_query_expansion
+    return {"retrieval": retrieval} if retrieval else {}
+
+
+def build_per_question_cp(scores: dict) -> list[dict]:
+    """Pair each question with its context_precision score."""
+    questions = scores.get("user_input", [])
+    cps = scores.get("context_precision", [])
+    return [{"question": q, "context_precision": cp} for q, cp in zip(questions, cps)]
+
+
 def main() -> None:
     """Main entry point."""
     import argparse
@@ -384,7 +418,29 @@ def main() -> None:
         metavar="EXCHANGE",
         help="Limit eval to these exchange codes, e.g. --exchanges HKSE SGX",
     )
+    parser.add_argument("--rerank-top-n", type=int, default=None, dest="rerank_top_n")
+    parser.add_argument("--top-k", type=int, default=None, dest="top_k")
+    parser.add_argument("--bm25-weight", type=float, default=None, dest="bm25_weight")
+    parser.add_argument("--vector-weight", type=float, default=None, dest="vector_weight")
+    parser.add_argument(
+        "--rerank-query-expansion",
+        dest="rerank_query_expansion",
+        action="store_true",
+        default=None,
+        help="Enable HKEX query expansion in the rerank step",
+    )
+    parser.add_argument(
+        "--no-rerank-query-expansion",
+        dest="rerank_query_expansion",
+        action="store_false",
+        help="Disable HKEX query expansion in the rerank step",
+    )
     args = parser.parse_args()
+
+    overrides = build_overrides(args)
+    if overrides:
+        apply_config_overrides(overrides)
+        print(f"Config overrides applied: {overrides}")
 
     # Determine paths
     project_root = Path(__file__).parent.parent
