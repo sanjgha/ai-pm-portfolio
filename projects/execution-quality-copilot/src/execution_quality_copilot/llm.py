@@ -1,7 +1,7 @@
 """Manual Anthropic tool-use loop used by the eval harness to simulate the MCP client."""
 
 import json
-from typing import Any, Callable
+from typing import Any, Callable, cast
 
 import anthropic
 
@@ -42,17 +42,17 @@ def run_tool_loop(
             model=model,
             max_tokens=1024,
             system=SYSTEM,
-            tools=tools,
-            messages=messages,
+            tools=cast(Any, tools),
+            messages=cast(Any, messages),
         )
         if resp.stop_reason != "tool_use":
-            final_text = "".join(b.text for b in resp.content if getattr(b, "type", None) == "text")
+            final_text = "".join(b.text for b in resp.content if b.type == "text")
             break
 
         messages.append({"role": "assistant", "content": resp.content})
         results: list[dict[str, Any]] = []
         for block in resp.content:
-            if getattr(block, "type", None) != "tool_use":
+            if block.type != "tool_use":
                 continue
             args = dict(block.input)
             called.append((block.name, args))
