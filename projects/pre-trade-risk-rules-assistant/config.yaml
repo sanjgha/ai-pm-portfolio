@@ -1,0 +1,33 @@
+models:
+  agent: claude-sonnet-4-6      # generation + read-back
+  judge: claude-haiku-4-5       # eval intent-fidelity judge (cost-efficient)
+  max_tokens: 2000
+
+agent:
+  max_correction_attempts: 2    # spec: max 2 retries, then escalate
+
+exchanges: [SGX, HKEX, ASX, TSE]
+
+exchange_currency:
+  SGX: SGD
+  HKEX: HKD
+  ASX: AUD
+  TSE: JPY
+
+lints:
+  min_collar_pct: 0.1
+  max_collar_pct: 20.0
+  min_notional: 1000.0
+  max_notional: 1000000000.0    # 1bn sanity ceiling
+
+storage:
+  db_path: data/rules.db
+  audit_path: data/audit.jsonl
+
+api:
+  host: 0.0.0.0
+  port: 8000
+
+ui:
+  host: localhost
+  port: 8501
