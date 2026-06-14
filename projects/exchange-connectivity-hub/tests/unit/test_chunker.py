@@ -1,7 +1,57 @@
 """Test document chunking functionality."""
 
+from unittest.mock import MagicMock
+
 from langchain_core.documents import Document
+
+from exchange_connectivity_hub.ingest import chunker as chunker_mod
 from exchange_connectivity_hub.ingest.chunker import chunk_documents
+
+
+def _capturing_splitter(captured: dict) -> type:
+    """Return a fake splitter class that records the kwargs it is built with."""
+
+    class _FakeSplitter:
+        @classmethod
+        def from_tiktoken_encoder(cls, **kwargs):
+            captured.update(kwargs)
+            inst = MagicMock()
+            inst.split_documents.return_value = []
+            return inst
+
+    return _FakeSplitter
+
+
+def test_chunk_documents_reads_config_when_args_none(monkeypatch):
+    """With no explicit size args, chunker pulls chunk_size/overlap from config."""
+    captured: dict = {}
+    monkeypatch.setattr(
+        chunker_mod, "RecursiveCharacterTextSplitter", _capturing_splitter(captured)
+    )
+    monkeypatch.setattr(
+        chunker_mod, "get_config", lambda: {"chunking": {"chunk_size": 999, "chunk_overlap": 111}}
+    )
+
+    chunk_documents([Document(page_content="x")])
+
+    assert captured["chunk_size"] == 999
+    assert captured["chunk_overlap"] == 111
+
+
+def test_chunk_documents_explicit_args_override_config(monkeypatch):
+    """Explicit size args take precedence over config values."""
+    captured: dict = {}
+    monkeypatch.setattr(
+        chunker_mod, "RecursiveCharacterTextSplitter", _capturing_splitter(captured)
+    )
+    monkeypatch.setattr(
+        chunker_mod, "get_config", lambda: {"chunking": {"chunk_size": 999, "chunk_overlap": 111}}
+    )
+
+    chunk_documents([Document(page_content="x")], chunk_size=128, chunk_overlap=16)
+
+    assert captured["chunk_size"] == 128
+    assert captured["chunk_overlap"] == 16
 
 
 def test_chunk_documents_returns_list():

@@ -4,6 +4,11 @@ retrieval:
   rerank_top_n: 5        # Number of chunks to keep after reranking
   rerank_enabled: true   # Enable Voyage rerank-2.5
 
+# Chunking (token-aware, cl100k_base). Re-ingest after changing these.
+chunking:
+  chunk_size: 512        # Target chunk size in tokens
+  chunk_overlap: 64      # Overlap between adjacent chunks in tokens
+
 # Models
 models:
   embedding: voyage-finance-2
