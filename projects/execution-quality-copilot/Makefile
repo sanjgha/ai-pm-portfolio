@@ -31,10 +31,10 @@ clean:
 	rm -rf .pytest_cache build/ dist/ *.egg-info htmlcov/ .coverage
 
 gen-data:
-	python -m execution_quality_copilot.datagen
+	python3 -m execution_quality_copilot.datagen
 
 serve:
-	python -m execution_quality_copilot.server.main
+	python3 -m execution_quality_copilot.server.main
 
 eval:
-	python evals/run_eval.py
+	python3 evals/run_eval.py
