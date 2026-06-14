@@ -113,7 +113,7 @@
       "exchange": "HKSE"
     },
     {
-      "question": "What is the HKSE circuit breaker threshold?",
+      "question": "What is the HKSE VCM (Volatility Control Mechanism) threshold?",
       "ground_truth": "HKEX uses a Volatility Control Mechanism (VCM) rather than a traditional circuit breaker: a 5-minute cooling-off period is triggered if an individual stock price moves more than ±10% from its price 5 minutes prior",
       "source_doc": "HKEX_VCM_Trading_Mechanism.pdf",
       "page": null,
