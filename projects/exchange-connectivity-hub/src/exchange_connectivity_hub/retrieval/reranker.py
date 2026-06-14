@@ -5,6 +5,7 @@ from typing import Any
 from voyageai import Client as VoyageClient
 
 from exchange_connectivity_hub.config import get_config, get_voyage_api_key
+from exchange_connectivity_hub.retrieval.query_expansion import expand_query as _expand_query
 
 
 def rerank_documents(
@@ -13,6 +14,7 @@ def rerank_documents(
     query: str,
     top_n: int,
     enabled: bool | None = None,
+    expand_query: bool | None = None,
 ) -> list[Any]:
     """Rerank documents using Voyage AI rerank API.
 
@@ -21,6 +23,8 @@ def rerank_documents(
         query: Original query string
         top_n: Number of top documents to keep after reranking
         enabled: Whether reranking is enabled (uses config if None)
+        expand_query: Whether to enrich the rerank query with HKEX domain
+            synonyms (uses config ``retrieval.rerank_query_expansion`` if None)
 
     Returns:
         Reranked list of Documents (length = top_n)
@@ -41,6 +45,12 @@ def rerank_documents(
     config = get_config()
     rerank_model = config["models"]["rerank"]
 
+    # Resolve query expansion from config when not explicitly set (LIN-137)
+    if expand_query is None:
+        expand_query = config["retrieval"]["rerank_query_expansion"]
+
+    rerank_query = _expand_query(query) if expand_query else query
+
     # Initialize Voyage client
     client = VoyageClient(api_key=get_voyage_api_key())
 
@@ -49,7 +59,7 @@ def rerank_documents(
 
     # Call rerank API
     rerank_results = client.rerank(
-        query=query,
+        query=rerank_query,
         documents=doc_contents,
         model=rerank_model,
         top_k=top_n,

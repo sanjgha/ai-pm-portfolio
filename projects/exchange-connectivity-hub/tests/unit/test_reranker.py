@@ -67,3 +67,50 @@ def test_rerank_empty_documents():
     """Empty input should return empty list."""
     reranked = rerank_documents([], query="test query", top_n=5)
     assert reranked == []
+
+
+def test_rerank_uses_expanded_query_when_enabled():
+    """With expansion on, the query sent to Voyage is expanded."""
+    docs = [Document(page_content=f"Content {i}") for i in range(5)]
+
+    with (
+        patch("exchange_connectivity_hub.retrieval.reranker.VoyageClient") as mock_voyage,
+        patch("exchange_connectivity_hub.retrieval.reranker.get_voyage_api_key"),
+        patch("exchange_connectivity_hub.retrieval.reranker.get_config") as mock_cfg,
+    ):
+        mock_cfg.return_value = {"models": {"rerank": "rerank-2.5"}}
+        mock_client = MagicMock()
+        mock_voyage.return_value = mock_client
+        mock_client.rerank.return_value = MagicMock(results=[MagicMock(index=i) for i in range(5)])
+
+        rerank_documents(
+            docs,
+            query="How does the HKSE closing auction work?",
+            top_n=5,
+            enabled=True,
+            expand_query=True,
+        )
+
+        sent_query = mock_client.rerank.call_args.kwargs["query"]
+        assert "closing auction" in sent_query  # original preserved
+        assert "CAS" in sent_query  # synonym appended
+
+
+def test_rerank_uses_original_query_when_expansion_disabled():
+    """With expansion off, the original query is sent unchanged."""
+    docs = [Document(page_content=f"Content {i}") for i in range(5)]
+
+    with (
+        patch("exchange_connectivity_hub.retrieval.reranker.VoyageClient") as mock_voyage,
+        patch("exchange_connectivity_hub.retrieval.reranker.get_voyage_api_key"),
+        patch("exchange_connectivity_hub.retrieval.reranker.get_config") as mock_cfg,
+    ):
+        mock_cfg.return_value = {"models": {"rerank": "rerank-2.5"}}
+        mock_client = MagicMock()
+        mock_voyage.return_value = mock_client
+        mock_client.rerank.return_value = MagicMock(results=[MagicMock(index=i) for i in range(5)])
+
+        original = "How does the HKSE closing auction work?"
+        rerank_documents(docs, query=original, top_n=5, enabled=True, expand_query=False)
+
+        assert mock_client.rerank.call_args.kwargs["query"] == original

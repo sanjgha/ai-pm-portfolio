@@ -48,4 +48,5 @@ coverage.xml
 logs/
 data/raw/*.pdf
 data/chroma_db/
+data/chroma_db
 evals/results/

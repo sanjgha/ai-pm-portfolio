@@ -35,6 +35,27 @@ def get_config() -> dict[str, Any]:
     return _config
 
 
+def _deep_merge(base: dict[str, Any], overrides: dict[str, Any]) -> None:
+    """Recursively merge ``overrides`` into ``base`` in place."""
+    for key, value in overrides.items():
+        if isinstance(value, dict) and isinstance(base.get(key), dict):
+            _deep_merge(base[key], value)
+        else:
+            base[key] = value
+
+
+def apply_config_overrides(overrides: dict[str, Any]) -> None:
+    """Deep-merge ``overrides`` into the cached config.
+
+    Used by tuning entry points (e.g. ``run_eval.py`` CLI flags) to adjust
+    ranking parameters for a single process run without editing config.yaml.
+    Because every module reads the same cached dict via ``get_config()``, the
+    merge propagates everywhere downstream.
+    """
+    config = get_config()
+    _deep_merge(config, overrides)
+
+
 def get_voyage_api_key() -> str:
     """Get Voyage API key from environment."""
     key = os.getenv("VOYAGE_API_KEY")
