@@ -3,6 +3,9 @@ retrieval:
   top_k: 20              # Number of chunks to retrieve before reranking
   rerank_top_n: 5        # Number of chunks to keep after reranking
   rerank_enabled: true   # Enable Voyage rerank-2.5
+  bm25_weight: 0.4       # EnsembleRetriever weight for BM25 (keyword) retriever
+  vector_weight: 0.6     # EnsembleRetriever weight for dense vector retriever
+  rerank_query_expansion: false  # Enrich rerank query with HKEX domain synonyms
 
 # Chunking (token-aware, cl100k_base). Re-ingest after changing these.
 chunking:

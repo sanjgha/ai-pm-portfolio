@@ -11,15 +11,13 @@ from langchain_core.documents import Document
 
 from exchange_connectivity_hub.config import get_config, get_voyage_api_key
 
-# BM25 weight 0.4, vector weight 0.6: vector-dominant but BM25 rescues keyword mismatches
-_BM25_WEIGHT = 0.4
-_VECTOR_WEIGHT = 0.6
-
 
 def create_hybrid_retriever(
     *,
     exchange_filter: str | None = None,
     top_k: int | None = None,
+    bm25_weight: float | None = None,
+    vector_weight: float | None = None,
 ) -> EnsembleRetriever:
     """Create a hybrid BM25 + dense vector retriever via Reciprocal Rank Fusion.
 
@@ -29,14 +27,23 @@ def create_hybrid_retriever(
     Args:
         exchange_filter: Optional exchange code to filter both retrievers (e.g. "HKSE")
         top_k: Documents per retriever before fusion (uses config default if None)
+        bm25_weight: RRF weight for BM25 (uses config ``retrieval.bm25_weight`` if None)
+        vector_weight: RRF weight for vector search (uses config ``retrieval.vector_weight`` if None)
 
     Returns:
-        EnsembleRetriever fusing BM25 (0.4) and vector (0.6) results
+        EnsembleRetriever fusing BM25 and vector results by the configured weights
     """
     config = get_config()
 
     if top_k is None:
         top_k = config["retrieval"]["top_k"]
+    # Config-driven so ranking can be tuned without code changes (LIN-137).
+    # Vector-dominant by default (BM25 0.4 / vector 0.6): BM25 rescues keyword
+    # mismatches. Explicit args always take precedence.
+    if bm25_weight is None:
+        bm25_weight = config["retrieval"]["bm25_weight"]
+    if vector_weight is None:
+        vector_weight = config["retrieval"]["vector_weight"]
 
     persist_directory = config["vector_store"]["persist_directory"]
     collection_name = config["vector_store"]["collection_name"]
@@ -80,5 +87,5 @@ def create_hybrid_retriever(
 
     return EnsembleRetriever(
         retrievers=[bm25_retriever, vector_retriever],
-        weights=[_BM25_WEIGHT, _VECTOR_WEIGHT],
+        weights=[bm25_weight, vector_weight],
     )
