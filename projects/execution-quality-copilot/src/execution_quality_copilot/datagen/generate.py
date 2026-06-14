@@ -6,6 +6,7 @@ golden eval questions have stable, hand-checkable answers. Run with:
     python -m execution_quality_copilot.datagen
 """
 
+import hashlib
 import random
 from datetime import date, datetime, timedelta
 from pathlib import Path
@@ -43,6 +44,12 @@ def _business_days(start: str, end: str) -> list[date]:
     return days
 
 
+def _stable_hash(symbol: str, d: date) -> int:
+    """Process-stable hash for a (symbol, day) pair (Python's built-in hash() is salted)."""
+    digest = hashlib.sha256(f"{symbol}|{d.isoformat()}".encode()).digest()
+    return int.from_bytes(digest[:4], "big")
+
+
 def build_fills(
     *,
     seed: int,
@@ -60,7 +67,7 @@ def build_fills(
     base_px = {s: round(5.0 + (i % 40) * 2.5, 2) for i, s in enumerate(symbols)}
     # Deterministic per (symbol, day) close price, independent of the fill loop.
     close_px = {
-        (s, d): round(base_px[s] * (1.0 + ((hash((s, d.isoformat())) % 401) - 200) / 10000.0), 4)
+        (s, d): round(base_px[s] * (1.0 + ((_stable_hash(s, d) % 401) - 200) / 10000.0), 4)
         for s in symbols
         for d in days
     }
