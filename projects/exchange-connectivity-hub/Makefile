@@ -1,4 +1,4 @@
-.PHONY: install dev-install test test-cov lint format typecheck ci clean
+.PHONY: install dev-install test test-cov lint format typecheck ci clean ingest ingest-all check-updates reingest serve-api serve-ui eval
 
 install:
 	pip install -e .
@@ -29,3 +29,27 @@ clean:
 	find . -type d -name __pycache__ -exec rm -rf {} +
 	find . -type f -name "*.pyc" -delete
 	rm -rf .pytest_cache build/ dist/ *.egg-info htmlcov/ .coverage
+
+# Ingest targets
+ingest:
+	python -m exchange_connectivity_hub.ingest.pipeline ingest doc=$(doc)
+
+ingest-all:
+	python -m exchange_connectivity_hub.ingest.pipeline ingest-all
+
+check-updates:
+	python -m exchange_connectivity_hub.ingest.update_checker
+
+reingest:
+	python -m exchange_connectivity_hub.ingest.pipeline ingest doc=$(doc) force=true
+
+# API and UI
+serve-api:
+	uvicorn exchange_connectivity_hub.api.main:app --reload --host 0.0.0.0 --port 8000
+
+serve-ui:
+	streamlit run exchange_connectivity_hub/ui/app.py
+
+# Eval
+eval:
+	python evals/run_eval.py
