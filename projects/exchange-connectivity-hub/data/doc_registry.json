@@ -1,23 +1,93 @@
 {
-    "SGX_Market_Model_Guide_v4.pdf": {
-        "source_url": "https://www.sgx.com/docs/market-model-guide-v4.pdf",
-        "exchange": "SGX",
-        "doc_type": "market_model",
-        "current_hash": null,
-        "version_history": []
-    },
-    "HKSE_Rules_Guide.pdf": {
-        "source_url": "https://www.hkex.com.hk/rules-guide.pdf",
-        "exchange": "HKSE",
-        "doc_type": "market_model",
-        "current_hash": null,
-        "version_history": []
-    },
-    "TSE_Trading_Guide.pdf": {
-        "source_url": "https://www.jpx.co.jp/tse-trading-guide.pdf",
-        "exchange": "TSE",
-        "doc_type": "market_model",
-        "current_hash": null,
-        "version_history": []
-    }
+  "HKEX_Chapter5_Trading_Rules.pdf": {
+    "source_url": "https://www.hkex.com.hk/-/media/HKEX-Market/Services/Rules-and-Forms-and-Fees/Rules/SEHK/Securities/Rules/Chap_5_eng.pdf",
+    "exchange": "HKSE",
+    "doc_type": "trading_rules",
+    "current_hash": "1671b876ccd0b24b3c88209f00bdbb99",
+    "version_history": [
+      {
+        "hash": "1671b876ccd0b24b3c88209f00bdbb99",
+        "ingested_at": "2026-06-14T04:51:01.409749+00:00",
+        "chunks_count": 129
+      }
+    ]
+  },
+  "HKEX_TickSize_Consultation_2024.pdf": {
+    "source_url": "https://www.hkex.com.hk/-/media/HKEX-Market/News/Market-Consultations/2016-Present/June-2024-Review-of-Minimum-Spreads/Consultation-Paper/cp202406.pdf",
+    "exchange": "HKSE",
+    "doc_type": "market_microstructure",
+    "current_hash": "228f1046095e0ad83028fe82896df9ab",
+    "version_history": [
+      {
+        "hash": "228f1046095e0ad83028fe82896df9ab",
+        "ingested_at": "2026-06-14T04:51:15.539956+00:00",
+        "chunks_count": 63
+      }
+    ]
+  },
+  "HKEX_CAS_Trading_Mechanism.pdf": {
+    "source_url": "https://www.hkex.com.hk/-/media/HKEX-Market/Services/Trading/Securities/Overview/Trading-Mechanism/Trading-Mechanism-of-CAS-in-the-Securities-Market.pdf",
+    "exchange": "HKSE",
+    "doc_type": "trading_mechanism",
+    "current_hash": "0d366e3f475dc6cbaa03d0a7362690e4",
+    "version_history": [
+      {
+        "hash": "0d366e3f475dc6cbaa03d0a7362690e4",
+        "ingested_at": "2026-06-14T04:51:19.342713+00:00",
+        "chunks_count": 27
+      }
+    ]
+  },
+  "HKEX_VCM_Trading_Mechanism.pdf": {
+    "source_url": "https://www.hkex.com.hk/-/media/HKEX-Market/Services/Trading/Securities/Overview/Trading-Mechanism/Trading-Mechanism-for-VCM_E.pdf",
+    "exchange": "HKSE",
+    "doc_type": "volatility_control",
+    "current_hash": "6657b406da7afcf477efc232dc508a19",
+    "version_history": [
+      {
+        "hash": "6657b406da7afcf477efc232dc508a19",
+        "ingested_at": "2026-06-14T06:09:05.055683+00:00",
+        "chunks_count": 16
+      }
+    ]
+  },
+  "HKEX_VCM_CAS_Consultation_Conclusions_2015.pdf": {
+    "source_url": "https://www.hkex.com.hk/-/media/HKEX-Market/News/Market-Consultations/2011-to-2015/January-2015-Consultation-Paper/Conclusions/cp201501cc.pdf",
+    "exchange": "HKSE",
+    "doc_type": "regulatory_consultation",
+    "current_hash": "a7a1c1a38bb0a7c04f7253f06699f327",
+    "version_history": [
+      {
+        "hash": "a7a1c1a38bb0a7c04f7253f06699f327",
+        "ingested_at": "2026-06-14T06:48:25.267197+00:00",
+        "chunks_count": 90
+      }
+    ]
+  },
+  "HKEX_POS_Trading_Mechanism_2026.pdf": {
+    "source_url": "https://www.hkex.com.hk/-/media/HKEX-Market/Services/Trading/Securities/Overview/Trading-Mechanism/Trading-Mechanism-of-POS-in-the-Securities-Market_en.pdf",
+    "exchange": "HKSE",
+    "doc_type": "trading_mechanism",
+    "current_hash": "68096c2f7c91453370c2b7d39cdef409",
+    "version_history": [
+      {
+        "hash": "68096c2f7c91453370c2b7d39cdef409",
+        "ingested_at": "2026-06-14T06:48:31.009067+00:00",
+        "chunks_count": 19
+      }
+    ]
+  },
+  "HKEX_BoardLot_Framework_2025.pdf": {
+    "source_url": "https://www.hkex.com.hk/-/media/HKEX-Market/News/Market-Consultations/2016-Present/December-2025-Board-Lot-Framework-Enhancements/Consultation-Paper/cp202512.pdf",
+    "exchange": "HKSE",
+    "doc_type": "market_microstructure",
+    "current_hash": "c2d00344ac3b3fa3f49dae4887b0c7a4",
+    "version_history": [
+      {
+        "hash": "c2d00344ac3b3fa3f49dae4887b0c7a4",
+        "ingested_at": "2026-06-14T06:09:33.063860+00:00",
+        "chunks_count": 59
+      }
+    ]
+  }
 }

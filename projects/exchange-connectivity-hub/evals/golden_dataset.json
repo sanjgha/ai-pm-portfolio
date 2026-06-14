@@ -72,9 +72,9 @@
     },
     {
       "question": "What is the minimum lot size for HKSE Main Board securities?",
-      "ground_truth": "Generally 1,000 shares per lot, varies for higher-priced stocks",
-      "source_doc": "HKSE_Rules_Guide.pdf",
-      "page": 14,
+      "ground_truth": "Board lot sizes vary by stock (range: 10 to 100,000 shares per lot), calibrated to target a HK$1,000–HK$2,000 lot value per board lot; there is no single fixed minimum",
+      "source_doc": "HKEX_BoardLot_Framework_2025.pdf",
+      "page": null,
       "exchange": "HKSE"
     },
     {
@@ -113,10 +113,10 @@
       "exchange": "HKSE"
     },
     {
-      "question": "What is the HKSE circuit breaker threshold?",
-      "ground_truth": "Triggered if Hang Seng Index falls 10% or more from previous close",
-      "source_doc": "HKSE_Rules_Guide.pdf",
-      "page": 26,
+      "question": "What is the HKSE VCM (Volatility Control Mechanism) threshold?",
+      "ground_truth": "HKEX uses a Volatility Control Mechanism (VCM) rather than a traditional circuit breaker: a 5-minute cooling-off period is triggered if an individual stock price moves more than ±10% from its price 5 minutes prior",
+      "source_doc": "HKEX_VCM_Trading_Mechanism.pdf",
+      "page": null,
       "exchange": "HKSE"
     },
     {

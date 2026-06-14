@@ -39,14 +39,19 @@ from datetime import datetime, timezone  # noqa: E402
 from pathlib import Path  # noqa: E402
 
 from datasets import Dataset  # noqa: E402
+from langchain_anthropic import ChatAnthropic  # noqa: E402
+from langchain_community.embeddings import VoyageEmbeddings  # noqa: E402
 from ragas import evaluate  # noqa: E402
+from ragas.embeddings import LangchainEmbeddingsWrapper  # noqa: E402
+from ragas.llms import LangchainLLMWrapper  # noqa: E402
 from ragas.metrics import (  # noqa: E402
+    answer_relevancy,
     context_precision,
     context_recall,
     faithfulness,
-    answer_relevancy,
 )
 
+from exchange_connectivity_hub.config import get_anthropic_api_key, get_voyage_api_key  # noqa: E402
 from exchange_connectivity_hub.retrieval.rag_chain import (  # noqa: E402
     create_rag_chain,
 )
@@ -102,11 +107,14 @@ def extract_contexts(sources: list[dict]) -> list[str]:
 
 def run_evaluation(
     evals_dir: Path,
+    exchanges: list[str] | None = None,
 ) -> dict:
     """Run the full evaluation pipeline.
 
     Args:
         evals_dir: Path to the evals directory
+        exchanges: If set, only evaluate questions for these exchange codes (e.g. ["HKSE"]).
+                   Unanswerable questions are always included.
 
     Returns:
         Dictionary containing evaluation results
@@ -114,6 +122,10 @@ def run_evaluation(
     print("Loading golden dataset...")
     golden_path = evals_dir / "golden_dataset.json"
     answerable_qs, unanswerable_qs = load_golden_dataset(golden_path)
+
+    if exchanges:
+        answerable_qs = [q for q in answerable_qs if q.get("exchange") in exchanges]
+        print(f"Exchange filter: {exchanges} — {len(answerable_qs)} answerable questions selected")
 
     print(
         f"Loaded {len(answerable_qs)} answerable and {len(unanswerable_qs)} unanswerable questions"
@@ -137,7 +149,7 @@ def run_evaluation(
                 {
                     "question": item["question"],
                     "answer": result["answer"],
-                    "contexts": extract_contexts(result.get("sources", [])),
+                    "contexts": result.get("contexts", []),
                     "ground_truth": item["ground_truth"],
                     "type": "answerable",
                 }
@@ -172,7 +184,7 @@ def run_evaluation(
                 {
                     "question": item["question"],
                     "answer": answer,
-                    "contexts": extract_contexts(result.get("sources", [])),
+                    "contexts": result.get("contexts", []),
                     "ground_truth": "",
                     "type": "unanswerable",
                     "refused": refused,
@@ -195,16 +207,33 @@ def run_evaluation(
     # (RAGAS metrics require ground truth)
     answerable_results = [r for r in all_results if r["type"] == "answerable"]
 
+    # RAGAS 0.2.x renamed fields: question→user_input, answer→response,
+    # contexts→retrieved_contexts, ground_truth (list)→reference (str)
     dataset_dict = {
-        "question": [r["question"] for r in answerable_results],
-        "answer": [r["answer"] for r in answerable_results],
-        "contexts": [r["contexts"] for r in answerable_results],
-        "ground_truth": [[r["ground_truth"]] for r in answerable_results],
+        "user_input": [r["question"] for r in answerable_results],
+        "response": [r["answer"] for r in answerable_results],
+        "retrieved_contexts": [r["contexts"] for r in answerable_results],
+        "reference": [r["ground_truth"] for r in answerable_results],
     }
     dataset = Dataset.from_dict(dataset_dict)
 
     print(f"\n=== Running RAGAS evaluation on {len(answerable_results)} answerable questions ===")
-    # Run RAGAS evaluation
+
+    # Use Claude as judge LLM and Voyage for embeddings (avoids requiring OpenAI key)
+    judge_llm = LangchainLLMWrapper(
+        ChatAnthropic(
+            api_key=get_anthropic_api_key(),
+            model="claude-haiku-4-5-20251001",
+            temperature=0,
+        )
+    )
+    judge_embeddings = LangchainEmbeddingsWrapper(
+        VoyageEmbeddings(  # type: ignore[call-arg]
+            voyage_api_key=get_voyage_api_key(),
+            model="voyage-finance-2",
+        )
+    )
+
     result = evaluate(
         dataset=dataset,
         metrics=[
@@ -213,6 +242,8 @@ def run_evaluation(
             faithfulness,
             answer_relevancy,
         ],
+        llm=judge_llm,
+        embeddings=judge_embeddings,
     )
 
     # Convert to dict for easier handling
@@ -330,6 +361,17 @@ def save_results(results: dict, results_dir: Path) -> Path:
 
 def main() -> None:
     """Main entry point."""
+    import argparse
+
+    parser = argparse.ArgumentParser(description="RAGAS Evaluation Harness")
+    parser.add_argument(
+        "--exchanges",
+        nargs="+",
+        metavar="EXCHANGE",
+        help="Limit eval to these exchange codes, e.g. --exchanges HKSE SGX",
+    )
+    args = parser.parse_args()
+
     # Determine paths
     project_root = Path(__file__).parent.parent
     evals_dir = project_root / "evals"
@@ -339,7 +381,7 @@ def main() -> None:
     print("=" * 60)
 
     # Run evaluation
-    results = run_evaluation(evals_dir)
+    results = run_evaluation(evals_dir, exchanges=args.exchanges)
 
     # Print results
     print_results(results)
