@@ -9,6 +9,19 @@ from exchange_connectivity_hub.ingest.embedder import delete_by_source, embed_an
 from exchange_connectivity_hub.ingest.loader import extract_full_text_from_docs, load_pdf
 
 
+def _validate_filename(filename: str) -> None:
+    """Validate filename doesn't contain path traversal.
+
+    Args:
+        filename: Filename to validate
+
+    Raises:
+        ValueError: If filename contains path separators
+    """
+    if "/" in filename or "\\" in filename:
+        raise ValueError(f"Invalid filename (contains path separator): {filename}")
+
+
 def ingest_single_pdf(
     *,
     pdf_path: Path,
@@ -119,6 +132,9 @@ def ingest_all_from_registry(
     raw_dir = Path("data/raw")
 
     for filename, entry in registry.data.items():
+        # Validate filename for path traversal
+        _validate_filename(filename)
+
         pdf_path = raw_dir / filename
 
         if not pdf_path.exists():

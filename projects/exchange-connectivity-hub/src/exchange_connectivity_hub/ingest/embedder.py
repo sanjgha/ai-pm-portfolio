@@ -22,7 +22,7 @@ def get_collection(*, persist_directory: str, collection_name: str) -> Any:
     model = config["models"]["embedding"]
 
     # Initialize embeddings
-    embeddings = VoyageEmbeddings(
+    embeddings = VoyageEmbeddings(  # type: ignore[call-arg]
         voyage_api_key=get_voyage_api_key(),
         model=model,
     )
@@ -56,7 +56,7 @@ def embed_and_store(
         persist_directory = config["vector_store"]["persist_directory"]
 
     model = config["models"]["embedding"]
-    embeddings = VoyageEmbeddings(
+    embeddings = VoyageEmbeddings(  # type: ignore[call-arg]
         voyage_api_key=get_voyage_api_key(),
         model=model,
     )

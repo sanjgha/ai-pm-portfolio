@@ -32,16 +32,16 @@ clean:
 
 # Ingest targets
 ingest:
-	python -m exchange_connectivity_hub.ingest.pipeline ingest doc=$(doc)
+	python -m exchange_connectivity_hub.ingest ingest --doc $(doc)
 
 ingest-all:
-	python -m exchange_connectivity_hub.ingest.pipeline ingest-all
+	python -m exchange_connectivity_hub.ingest ingest-all
 
 check-updates:
 	python -m exchange_connectivity_hub.ingest.update_checker
 
 reingest:
-	python -m exchange_connectivity_hub.ingest.pipeline ingest doc=$(doc) force=true
+	python -m exchange_connectivity_hub.ingest reingest --doc $(doc)
 
 # API and UI
 serve-api:
