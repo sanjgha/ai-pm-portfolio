@@ -242,8 +242,19 @@ def run_evaluation(
         sum(answer_relevancy_score) / len(answer_relevancy_score) if answer_relevancy_score else 0.0
     )
 
-    # Determine pass/fail
-    passed = avg_faithfulness >= 0.85 and avg_context_precision >= 0.75 and refusal_rate >= 0.80
+    # Define thresholds
+    thresholds = {
+        "faithfulness": 0.85,
+        "context_precision": 0.75,
+        "refusal_rate": 0.80,
+    }
+
+    # Determine pass/fail using thresholds dict
+    passed = (
+        avg_faithfulness >= thresholds["faithfulness"]
+        and avg_context_precision >= thresholds["context_precision"]
+        and refusal_rate >= thresholds["refusal_rate"]
+    )
 
     results = {
         "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -258,11 +269,7 @@ def run_evaluation(
             "context_recall": avg_context_recall,
             "answer_relevancy": avg_answer_relevancy,
         },
-        "thresholds": {
-            "faithfulness": 0.85,
-            "context_precision": 0.75,
-            "refusal_rate": 0.80,
-        },
+        "thresholds": thresholds,
         "passed": passed,
         "per_question_scores": scores,
     }
