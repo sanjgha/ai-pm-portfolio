@@ -36,6 +36,7 @@ include = ["pre_trade_risk_rules_assistant*"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
+pythonpath = ["."]
 addopts = "-v --cov=pre_trade_risk_rules_assistant --cov-report=term-missing"
 filterwarnings = [
     "ignore::DeprecationWarning",

@@ -1,0 +1,204 @@
+[
+  {
+    "request": "Block any single buy order over 5 million SGD on SGX",
+    "expected": {
+      "rule_type": "order_notional_limit",
+      "scope": {"exchange": "SGX"},
+      "side": "buy",
+      "action": "block",
+      "max_notional": 5000000,
+      "currency": "SGD"
+    }
+  },
+  {
+    "request": "Warn on sell orders larger than 2,000,000 HKD on HKEX",
+    "expected": {
+      "rule_type": "order_notional_limit",
+      "scope": {"exchange": "HKEX"},
+      "side": "sell",
+      "action": "warn",
+      "max_notional": 2000000,
+      "currency": "HKD"
+    }
+  },
+  {
+    "request": "Apply a 5% price collar on all SGX orders against the last price",
+    "expected": {
+      "rule_type": "price_collar",
+      "scope": {"exchange": "SGX"},
+      "action": "warn",
+      "collar_pct": 5,
+      "reference_price": "last"
+    }
+  },
+  {
+    "request": "Put a 3 percent collar on ASX buy orders versus the opening price",
+    "expected": {
+      "rule_type": "price_collar",
+      "scope": {"exchange": "ASX"},
+      "side": "buy",
+      "collar_pct": 3,
+      "reference_price": "open"
+    }
+  },
+  {
+    "request": "Block trading in DBS (D05) and OCBC (O39) on SGX",
+    "expected": {
+      "rule_type": "restricted_list",
+      "scope": {"exchange": "SGX"},
+      "action": "block",
+      "symbols": ["D05", "O39"]
+    }
+  },
+  {
+    "request": "Add CBA to the restricted list for ASX, block both sides",
+    "expected": {
+      "rule_type": "restricted_list",
+      "scope": {"exchange": "ASX"},
+      "action": "block",
+      "symbols": ["CBA"]
+    }
+  },
+  {
+    "request": "Flag for review any buy order exceeding 10 million AUD on ASX",
+    "expected": {
+      "rule_type": "order_notional_limit",
+      "scope": {"exchange": "ASX"},
+      "side": "buy",
+      "action": "review",
+      "max_notional": 10000000,
+      "currency": "AUD"
+    }
+  },
+  {
+    "request": "Block all sell orders above 500 million JPY on TSE",
+    "expected": {
+      "rule_type": "order_notional_limit",
+      "scope": {"exchange": "TSE"},
+      "side": "sell",
+      "action": "block",
+      "max_notional": 500000000,
+      "currency": "JPY"
+    }
+  },
+  {
+    "request": "Warn when any order on HKEX is larger than 5 million HKD",
+    "expected": {
+      "rule_type": "order_notional_limit",
+      "scope": {"exchange": "HKEX"},
+      "action": "warn",
+      "max_notional": 5000000,
+      "currency": "HKD"
+    }
+  },
+  {
+    "request": "Do not allow buy orders on SGX above 1 million SGD without review",
+    "expected": {
+      "rule_type": "order_notional_limit",
+      "scope": {"exchange": "SGX"},
+      "side": "buy",
+      "action": "review",
+      "max_notional": 1000000,
+      "currency": "SGD"
+    }
+  },
+  {
+    "request": "Set a 10 percent price collar on TSE orders relative to the previous close",
+    "expected": {
+      "rule_type": "price_collar",
+      "scope": {"exchange": "TSE"},
+      "action": "warn",
+      "collar_pct": 10,
+      "reference_price": "close"
+    }
+  },
+  {
+    "request": "Apply a 2 percent collar on HKEX sell orders priced against the last traded price",
+    "expected": {
+      "rule_type": "price_collar",
+      "scope": {"exchange": "HKEX"},
+      "side": "sell",
+      "collar_pct": 2,
+      "reference_price": "last"
+    }
+  },
+  {
+    "request": "Add Softbank (9984) and Toyota (7203) to the TSE restricted list and block all trading",
+    "expected": {
+      "rule_type": "restricted_list",
+      "scope": {"exchange": "TSE"},
+      "action": "block",
+      "symbols": ["9984", "7203"]
+    }
+  },
+  {
+    "request": "Restrict trading on HKEX in 700 and 941, both sides should be blocked",
+    "expected": {
+      "rule_type": "restricted_list",
+      "scope": {"exchange": "HKEX"},
+      "action": "block",
+      "symbols": ["700", "941"]
+    }
+  },
+  {
+    "request": "Flag any ASX order in BHP or RIO for compliance review before execution",
+    "expected": {
+      "rule_type": "restricted_list",
+      "scope": {"exchange": "ASX"},
+      "action": "review",
+      "symbols": ["BHP", "RIO"]
+    }
+  },
+  {
+    "request": "Reject any buy order on TSE that exceeds 1 billion JPY",
+    "expected": {
+      "rule_type": "order_notional_limit",
+      "scope": {"exchange": "TSE"},
+      "side": "buy",
+      "action": "block",
+      "max_notional": 1000000000,
+      "currency": "JPY"
+    }
+  },
+  {
+    "request": "Warn the trader when a sell order on ASX is worth more than 750,000 AUD",
+    "expected": {
+      "rule_type": "order_notional_limit",
+      "scope": {"exchange": "ASX"},
+      "side": "sell",
+      "action": "warn",
+      "max_notional": 750000,
+      "currency": "AUD"
+    }
+  },
+  {
+    "request": "Cap all SGX orders at 15 percent deviation from the opening price",
+    "expected": {
+      "rule_type": "price_collar",
+      "scope": {"exchange": "SGX"},
+      "action": "warn",
+      "collar_pct": 15,
+      "reference_price": "open"
+    }
+  },
+  {
+    "request": "Warn on HKEX buy orders that deviate more than 8 percent from the last close",
+    "expected": {
+      "rule_type": "price_collar",
+      "scope": {"exchange": "HKEX"},
+      "side": "buy",
+      "action": "warn",
+      "collar_pct": 8,
+      "reference_price": "close"
+    }
+  },
+  {
+    "request": "Put WES and WBC on the restricted list for ASX and send for review",
+    "expected": {
+      "rule_type": "restricted_list",
+      "scope": {"exchange": "ASX"},
+      "action": "review",
+      "symbols": ["WES", "WBC"]
+    }
+  }
+]
