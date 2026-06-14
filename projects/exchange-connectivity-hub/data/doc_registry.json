@@ -37,5 +37,31 @@
         "chunks_count": 27
       }
     ]
+  },
+  "HKEX_VCM_Trading_Mechanism.pdf": {
+    "source_url": "https://www.hkex.com.hk/-/media/HKEX-Market/Services/Trading/Securities/Overview/Trading-Mechanism/Trading-Mechanism-for-VCM_E.pdf",
+    "exchange": "HKSE",
+    "doc_type": "volatility_control",
+    "current_hash": "6657b406da7afcf477efc232dc508a19",
+    "version_history": [
+      {
+        "hash": "6657b406da7afcf477efc232dc508a19",
+        "ingested_at": "2026-06-14T06:09:05.055683+00:00",
+        "chunks_count": 16
+      }
+    ]
+  },
+  "HKEX_BoardLot_Framework_2025.pdf": {
+    "source_url": "https://www.hkex.com.hk/-/media/HKEX-Market/News/Market-Consultations/2016-Present/December-2025-Board-Lot-Framework-Enhancements/Consultation-Paper/cp202512.pdf",
+    "exchange": "HKSE",
+    "doc_type": "market_microstructure",
+    "current_hash": "c2d00344ac3b3fa3f49dae4887b0c7a4",
+    "version_history": [
+      {
+        "hash": "c2d00344ac3b3fa3f49dae4887b0c7a4",
+        "ingested_at": "2026-06-14T06:09:33.063860+00:00",
+        "chunks_count": 59
+      }
+    ]
   }
 }
