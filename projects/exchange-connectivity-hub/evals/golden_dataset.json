@@ -9,7 +9,7 @@
     },
     {
       "question": "What are the pre-open trading hours for SGX?",
-      "ground_truth": "08:30 - 09:00 (HKT) on trading days",
+      "ground_truth": "08:30 - 09:00 (SGT) on trading days",
       "source_doc": "SGX_Market_Model_Guide_v4.pdf",
       "page": 8,
       "exchange": "SGX"
