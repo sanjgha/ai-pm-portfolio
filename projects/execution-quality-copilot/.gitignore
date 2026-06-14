@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+build/
+develop-eggs/
+dist/
+eggs/
+.eggs/
+sdist/
+wheels/
+*.egg-info/
+*.egg
+
+# Virtual environments
+venv/
+.venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing / coverage
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
+# Env files (NEVER commit secrets)
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+
+# Runtime logs
+logs/
+
+# Generated synthetic dataset (regenerate with `make gen-data`)
+data/*.duckdb
+data/*.duckdb.wal
+# Eval run outputs
+evals/results/*.json
