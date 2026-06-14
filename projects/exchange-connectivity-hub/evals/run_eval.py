@@ -107,11 +107,14 @@ def extract_contexts(sources: list[dict]) -> list[str]:
 
 def run_evaluation(
     evals_dir: Path,
+    exchanges: list[str] | None = None,
 ) -> dict:
     """Run the full evaluation pipeline.
 
     Args:
         evals_dir: Path to the evals directory
+        exchanges: If set, only evaluate questions for these exchange codes (e.g. ["HKSE"]).
+                   Unanswerable questions are always included.
 
     Returns:
         Dictionary containing evaluation results
@@ -119,6 +122,10 @@ def run_evaluation(
     print("Loading golden dataset...")
     golden_path = evals_dir / "golden_dataset.json"
     answerable_qs, unanswerable_qs = load_golden_dataset(golden_path)
+
+    if exchanges:
+        answerable_qs = [q for q in answerable_qs if q.get("exchange") in exchanges]
+        print(f"Exchange filter: {exchanges} — {len(answerable_qs)} answerable questions selected")
 
     print(
         f"Loaded {len(answerable_qs)} answerable and {len(unanswerable_qs)} unanswerable questions"
@@ -354,6 +361,17 @@ def save_results(results: dict, results_dir: Path) -> Path:
 
 def main() -> None:
     """Main entry point."""
+    import argparse
+
+    parser = argparse.ArgumentParser(description="RAGAS Evaluation Harness")
+    parser.add_argument(
+        "--exchanges",
+        nargs="+",
+        metavar="EXCHANGE",
+        help="Limit eval to these exchange codes, e.g. --exchanges HKSE SGX",
+    )
+    args = parser.parse_args()
+
     # Determine paths
     project_root = Path(__file__).parent.parent
     evals_dir = project_root / "evals"
@@ -363,7 +381,7 @@ def main() -> None:
     print("=" * 60)
 
     # Run evaluation
-    results = run_evaluation(evals_dir)
+    results = run_evaluation(evals_dir, exchanges=args.exchanges)
 
     # Print results
     print_results(results)
