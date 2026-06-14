@@ -9,7 +9,7 @@ from langchain_core.runnables import RunnablePassthrough
 from langchain_anthropic import ChatAnthropic
 
 from exchange_connectivity_hub.config import get_config, get_anthropic_api_key
-from exchange_connectivity_hub.retrieval.retriever import create_retriever
+from exchange_connectivity_hub.retrieval.hybrid_retriever import create_hybrid_retriever
 from exchange_connectivity_hub.retrieval.reranker import rerank_documents
 
 
@@ -115,8 +115,8 @@ Answer:"""
         question = inputs["question"]
         exchange_filter = inputs.get("exchange_filter")
 
-        # Create retriever
-        retriever = create_retriever(
+        # Create hybrid retriever
+        retriever = create_hybrid_retriever(
             exchange_filter=exchange_filter,
         )
 
