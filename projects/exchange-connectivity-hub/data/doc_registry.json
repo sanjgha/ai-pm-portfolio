@@ -1,23 +1,41 @@
 {
-    "SGX_Market_Model_Guide_v4.pdf": {
-        "source_url": "https://www.sgx.com/docs/market-model-guide-v4.pdf",
-        "exchange": "SGX",
-        "doc_type": "market_model",
-        "current_hash": null,
-        "version_history": []
-    },
-    "HKSE_Rules_Guide.pdf": {
-        "source_url": "https://www.hkex.com.hk/rules-guide.pdf",
-        "exchange": "HKSE",
-        "doc_type": "market_model",
-        "current_hash": null,
-        "version_history": []
-    },
-    "TSE_Trading_Guide.pdf": {
-        "source_url": "https://www.jpx.co.jp/tse-trading-guide.pdf",
-        "exchange": "TSE",
-        "doc_type": "market_model",
-        "current_hash": null,
-        "version_history": []
-    }
+  "HKEX_Chapter5_Trading_Rules.pdf": {
+    "source_url": "https://www.hkex.com.hk/-/media/HKEX-Market/Services/Rules-and-Forms-and-Fees/Rules/SEHK/Securities/Rules/Chap_5_eng.pdf",
+    "exchange": "HKSE",
+    "doc_type": "trading_rules",
+    "current_hash": "1671b876ccd0b24b3c88209f00bdbb99",
+    "version_history": [
+      {
+        "hash": "1671b876ccd0b24b3c88209f00bdbb99",
+        "ingested_at": "2026-06-14T04:51:01.409749+00:00",
+        "chunks_count": 129
+      }
+    ]
+  },
+  "HKEX_TickSize_Consultation_2024.pdf": {
+    "source_url": "https://www.hkex.com.hk/-/media/HKEX-Market/News/Market-Consultations/2016-Present/June-2024-Review-of-Minimum-Spreads/Consultation-Paper/cp202406.pdf",
+    "exchange": "HKSE",
+    "doc_type": "market_microstructure",
+    "current_hash": "228f1046095e0ad83028fe82896df9ab",
+    "version_history": [
+      {
+        "hash": "228f1046095e0ad83028fe82896df9ab",
+        "ingested_at": "2026-06-14T04:51:15.539956+00:00",
+        "chunks_count": 63
+      }
+    ]
+  },
+  "HKEX_CAS_Trading_Mechanism.pdf": {
+    "source_url": "https://www.hkex.com.hk/-/media/HKEX-Market/Services/Trading/Securities/Overview/Trading-Mechanism/Trading-Mechanism-of-CAS-in-the-Securities-Market.pdf",
+    "exchange": "HKSE",
+    "doc_type": "trading_mechanism",
+    "current_hash": "0d366e3f475dc6cbaa03d0a7362690e4",
+    "version_history": [
+      {
+        "hash": "0d366e3f475dc6cbaa03d0a7362690e4",
+        "ingested_at": "2026-06-14T04:51:19.342713+00:00",
+        "chunks_count": 27
+      }
+    ]
+  }
 }
