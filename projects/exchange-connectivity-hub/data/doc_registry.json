@@ -1,0 +1,23 @@
+{
+    "SGX_Market_Model_Guide_v4.pdf": {
+        "source_url": "https://www.sgx.com/docs/market-model-guide-v4.pdf",
+        "exchange": "SGX",
+        "doc_type": "market_model",
+        "current_hash": null,
+        "version_history": []
+    },
+    "HKSE_Rules_Guide.pdf": {
+        "source_url": "https://www.hkex.com.hk/rules-guide.pdf",
+        "exchange": "HKSE",
+        "doc_type": "market_model",
+        "current_hash": null,
+        "version_history": []
+    },
+    "TSE_Trading_Guide.pdf": {
+        "source_url": "https://www.jpx.co.jp/tse-trading-guide.pdf",
+        "exchange": "TSE",
+        "doc_type": "market_model",
+        "current_hash": null,
+        "version_history": []
+    }
+}

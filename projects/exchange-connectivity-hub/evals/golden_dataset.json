@@ -1,0 +1,251 @@
+{
+  "answerable": [
+    {
+      "question": "What is the minimum lot size for SGX equities?",
+      "ground_truth": "100 shares (normal board), 1 share for odd lots",
+      "source_doc": "SGX_Market_Model_Guide_v4.pdf",
+      "page": 12,
+      "exchange": "SGX"
+    },
+    {
+      "question": "What are the pre-open trading hours for SGX?",
+      "ground_truth": "08:30 - 09:00 (SGT) on trading days",
+      "source_doc": "SGX_Market_Model_Guide_v4.pdf",
+      "page": 8,
+      "exchange": "SGX"
+    },
+    {
+      "question": "What order types are supported on SGX securities market?",
+      "ground_truth": "Limit, Market, Stop-Limit, Market-to-Limit, At-the-Close, and Hidden/Iceberg orders",
+      "source_doc": "SGX_Market_Model_Guide_v4.pdf",
+      "page": 15,
+      "exchange": "SGX"
+    },
+    {
+      "question": "What is the tick size for SGX securities priced above $1.00?",
+      "ground_truth": "$0.01 for securities priced at or above $1.00",
+      "source_doc": "SGX_Market_Model_Guide_v4.pdf",
+      "page": 11,
+      "exchange": "SGX"
+    },
+    {
+      "question": "What is the short selling margin requirement for SGX?",
+      "ground_truth": "105% of current market value for designated securities, higher for non-designated",
+      "source_doc": "SGX_Market_Model_Guide_v4.pdf",
+      "page": 28,
+      "exchange": "SGX"
+    },
+    {
+      "question": "Does SGX have volatility control mechanisms?",
+      "ground_truth": "Yes, SGX implements dynamic price bands and trading halts for extreme price movements",
+      "source_doc": "SGX_Market_Model_Guide_v4.pdf",
+      "page": 22,
+      "exchange": "SGX"
+    },
+    {
+      "question": "What is the settlement cycle for SGX equities?",
+      "ground_truth": "T+2 settlement for most securities",
+      "source_doc": "SGX_Market_Model_Guide_v4.pdf",
+      "page": 35,
+      "exchange": "SGX"
+    },
+    {
+      "question": "Does SGX have a market-making program?",
+      "ground_truth": "Yes, SGX operates a Designated Market Maker (DMM) program for select securities and ETFs",
+      "source_doc": "SGX_Market_Model_Guide_v4.pdf",
+      "page": 40,
+      "exchange": "SGX"
+    },
+    {
+      "question": "What happens during the SGX closing auction period?",
+      "ground_truth": "Random ending within 17:00-17:05 with order matching at a single equilibrium price",
+      "source_doc": "SGX_Market_Model_Guide_v4.pdf",
+      "page": 9,
+      "exchange": "SGX"
+    },
+    {
+      "question": "What is the margin trading requirement for SGX?",
+      "ground_truth": "Minimum 25% initial margin, maintenance margin varies by security category",
+      "source_doc": "SGX_Market_Model_Guide_v4.pdf",
+      "page": 30,
+      "exchange": "SGX"
+    },
+    {
+      "question": "What is the minimum lot size for HKSE Main Board securities?",
+      "ground_truth": "Generally 1,000 shares per lot, varies for higher-priced stocks",
+      "source_doc": "HKSE_Rules_Guide.pdf",
+      "page": 14,
+      "exchange": "HKSE"
+    },
+    {
+      "question": "What are the trading hours for HKSE morning session?",
+      "ground_truth": "09:30 - 12:00 (HKT) with pre-open from 09:00 - 09:30",
+      "source_doc": "HKSE_Rules_Guide.pdf",
+      "page": 10,
+      "exchange": "HKSE"
+    },
+    {
+      "question": "What order types are available on HKSE?",
+      "ground_truth": "Limit, Market, At-Auction, At-Auction Limit, Enhanced Limit, and Special Limit orders",
+      "source_doc": "HKSE_Rules_Guide.pdf",
+      "page": 18,
+      "exchange": "HKSE"
+    },
+    {
+      "question": "What is the tick size for HKSE stocks priced between HK$0.25 and HK$0.50?",
+      "ground_truth": "HK$0.005 for stocks in the HK$0.25 - HK$0.50 price range",
+      "source_doc": "HKSE_Rules_Guide.pdf",
+      "page": 13,
+      "exchange": "HKSE"
+    },
+    {
+      "question": "What are the short selling regulations on HKSE?",
+      "ground_truth": "Short selling allowed only for designated securities, must be covered at time of sale (no naked shorting)",
+      "source_doc": "HKSE_Rules_Guide.pdf",
+      "page": 32,
+      "exchange": "HKSE"
+    },
+    {
+      "question": "Does HKSE have volatility control?",
+      "ground_truth": "Yes, Volatility Control Mechanism (VCM) triggers 5-minute cooling periods for excessive moves",
+      "source_doc": "HKSE_Rules_Guide.pdf",
+      "page": 24,
+      "exchange": "HKSE"
+    },
+    {
+      "question": "What is the HKSE circuit breaker threshold?",
+      "ground_truth": "Triggered if Hang Seng Index falls 10% or more from previous close",
+      "source_doc": "HKSE_Rules_Guide.pdf",
+      "page": 26,
+      "exchange": "HKSE"
+    },
+    {
+      "question": "What is the settlement cycle for HKSE equities?",
+      "ground_truth": "T+2 settlement for all equity securities",
+      "source_doc": "HKSE_Rules_Guide.pdf",
+      "page": 38,
+      "exchange": "HKSE"
+    },
+    {
+      "question": "Does HKSE have market makers?",
+      "ground_truth": "Yes, through the Liquidity Provider Scheme for ETFs and derivatives",
+      "source_doc": "HKSE_Rules_Guide.pdf",
+      "page": 42,
+      "exchange": "HKSE"
+    },
+    {
+      "question": "How does the HKSE closing auction work?",
+      "ground_truth": "Random closing between 16:00-16:10 with reference price balancing mechanism",
+      "source_doc": "HKSE_Rules_Guide.pdf",
+      "page": 11,
+      "exchange": "HKSE"
+    },
+    {
+      "question": "What is the minimum trading unit for TSE common stocks?",
+      "ground_truth": "100 shares (1 trading unit) for most stocks, varies by stock category",
+      "source_doc": "TSE_Trading_Guide.pdf",
+      "page": 16,
+      "exchange": "TSE"
+    },
+    {
+      "question": "What are TSE regular trading hours?",
+      "ground_truth": "09:00 - 15:00 (JST) with morning session 09:00-11:30 and afternoon session 12:30-15:00",
+      "source_doc": "TSE_Trading_Guide.pdf",
+      "page": 8,
+      "exchange": "TSE"
+    },
+    {
+      "question": "What order types does TSE support?",
+      "ground_truth": "Limit, Market, Market-to-Limit, Fill-and-Kill, At-the-Close, and Conditional orders",
+      "source_doc": "TSE_Trading_Guide.pdf",
+      "page": 20,
+      "exchange": "TSE"
+    },
+    {
+      "question": "What is the tick size for TSE stocks priced between 1,000-3,000 yen?",
+      "ground_truth": "10 yen for stocks in the 1,000-3,000 yen price range",
+      "source_doc": "TSE_Trading_Guide.pdf",
+      "page": 15,
+      "exchange": "TSE"
+    },
+    {
+      "question": "Is short selling permitted on TSE?",
+      "ground_truth": "Yes, margin trading and short selling allowed for designated securities with strict coverage requirements",
+      "source_doc": "TSE_Trading_Guide.pdf",
+      "page": 36,
+      "exchange": "TSE"
+    },
+    {
+      "question": "Does TSE have volatility controls?",
+      "ground_truth": "Yes, Price Range Limits and Trading Halts based on reference price from previous session",
+      "source_doc": "TSE_Trading_Guide.pdf",
+      "page": 28,
+      "exchange": "TSE"
+    },
+    {
+      "question": "What is the TSE circuit breaker mechanism?",
+      "ground_truth": "Circuit breaker triggers if TOPIX or Nikkei 225 moves beyond thresholds, leading to temporary trading suspension",
+      "source_doc": "TSE_Trading_Guide.pdf",
+      "page": 30,
+      "exchange": "TSE"
+    },
+    {
+      "question": "What is the settlement cycle for TSE equities?",
+      "ground_truth": "T+2 settlement for all cash equity trades",
+      "source_doc": "TSE_Trading_Guide.pdf",
+      "page": 44,
+      "exchange": "TSE"
+    },
+    {
+      "question": "Does TSE have market makers?",
+      "ground_truth": "Yes, Liquidity Providers are appointed for ETFs and certain equity products",
+      "source_doc": "TSE_Trading_Guide.pdf",
+      "page": 48,
+      "exchange": "TSE"
+    },
+    {
+      "question": "How does TSE handle IPO pricing?",
+      "ground_truth": "IPO pricing determined through bookbuilding process with allocation by lead underwriters",
+      "source_doc": "TSE_Trading_Guide.pdf",
+      "page": 52,
+      "exchange": "TSE"
+    }
+  ],
+  "unanswerable": [
+    {
+      "question": "What is the minimum lot size for Indonesia Stock Exchange (IDX) equities?",
+      "ground_truth": null,
+      "source_doc": null,
+      "page": null,
+      "exchange": null
+    },
+    {
+      "question": "What are the short selling rules on Bursa Malaysia?",
+      "ground_truth": null,
+      "source_doc": null,
+      "page": null,
+      "exchange": null
+    },
+    {
+      "question": "What is the settlement cycle for Osaka Securities Exchange derivatives?",
+      "ground_truth": null,
+      "source_doc": null,
+      "page": null,
+      "exchange": null
+    },
+    {
+      "question": "What FIX protocol fields are required for SGX order submission?",
+      "ground_truth": null,
+      "source_doc": null,
+      "page": null,
+      "exchange": null
+    },
+    {
+      "question": "What is the tick size for Thailand Stock Exchange (SET) equities?",
+      "ground_truth": null,
+      "source_doc": null,
+      "page": null,
+      "exchange": null
+    }
+  ]
+}
